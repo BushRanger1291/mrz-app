@@ -1,6 +1,6 @@
 const cacheName = 'mrz-cache-v1';
 const assets = [
-  './MRZ.html',
+  './index.html',
   './manifest.json'
 ];
 
