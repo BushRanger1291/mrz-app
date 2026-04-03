@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <title>Calculateur MRZ</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #22c55e;
+            --text: #f8fafc;
+            --dim: #94a3b8;
+        }
+
+        body {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            width: 320px;
+            text-align: center;
+        }
+
+        h2 { font-size: 1.1rem; color: var(--accent); margin-bottom: 1.5rem; text-transform: uppercase; }
+
+        input {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #334155;
+            padding: 12px;
+            color: var(--accent);
+            font-size: 1.5rem;
+            text-align: center;
+            border-radius: 4px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        input:focus { border-color: var(--accent); }
+
+        .result-label { font-size: 0.7rem; color: var(--dim); margin-top: 2rem; text-transform: uppercase; }
+
+        .digit {
+            font-size: 5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 0.5rem 0;
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Format YYMMDD</h2>
+    
+    <input type="text" id="dataInput" maxlength="6" placeholder="YYMMDD" oninput="run()">
+
+    <div class="result-label">Chiffre de contrôle</div>
+    <div class="digit" id="res">-</div>
+</div>
+
+<script>
+    function run() {
+        const val = document.getElementById('dataInput').value;
+        const resDiv = document.getElementById('res');
+
+        if (val.length === 6) {
+            const w = [7, 3, 1];
+            let s = 0;
+
+            for (let i = 0; i < 6; i++) {
+                let n = parseInt(val[i]);
+                if (!isNaN(n)) {
+                    s += n * w[i % 3];
+                }
+            }
+            resDiv.innerText = s % 10;
+        } else {
+            resDiv.innerText = "-";
+        }
+    }
+
+    // Enregistrement du Service Worker pour le mode hors-ligne
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+</script>
+
+</body>
+</html>
