@@ -1,7 +1,7 @@
 {
   "name": "Calculateur MRZ",
   "short_name": "MRZ",
-  "description": "Calcul du checksum pour les zones MRZ (Passeports/ID)",
+  "description": "Calcul du checksum pour zones MRZ",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f172a",

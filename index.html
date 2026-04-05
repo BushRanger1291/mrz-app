@@ -38,6 +38,7 @@
             width: 320px;
             text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            position: relative;
         }
 
         h2 { font-size: 1.1rem; color: var(--accent); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
@@ -48,7 +49,7 @@
             border: 2px solid #334155;
             padding: 12px;
             color: var(--text);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             text-align: center;
             border-radius: 8px;
             outline: none;
@@ -57,8 +58,9 @@
         }
 
         input:focus { border-color: var(--accent); }
+        input::placeholder { color: #334155; font-size: 1.4rem; }
 
-        .result-label { font-size: 0.7rem; color: var(--dim); margin-top: 2rem; text-transform: uppercase; letter-spacing: 1px; }
+        .result-label { font-size: 0.7rem; color: var(--dim); margin-top: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
 
         .digit {
             font-size: 5rem;
@@ -70,17 +72,33 @@
             align-items: center;
             justify-content: center;
         }
+
+        .disclaimer {
+            margin-top: 1.5rem;
+            font-size: 0.55rem;
+            color: #475569;
+            line-height: 1.3;
+            text-align: center;
+            font-style: italic;
+            border-top: 1px solid #334155;
+            padding-top: 1rem;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Format YYMMDD</h2>
+    <h2>Vérification MRZ</h2>
     
-    <input type="text" id="dataInput" maxlength="6" inputmode="numeric" placeholder="6 chiffres" oninput="run()">
+    <input type="text" id="dataInput" maxlength="6" inputmode="numeric" placeholder="YYMMDD" oninput="run()">
 
-    <div class="result-label">Chiffre de contrôle</div>
-    <div class="digit" id="res">-</div>
+    <div class="result-label">Checksum</div>
+    <div id="res" class="digit">-</div>
+
+    <div class="disclaimer">
+        Outil d'aide au calcul. Ne remplace pas une vérification officielle. 
+        L'exactitude des résultats n'est pas garantie. Usage sous votre entière responsabilité.
+    </div>
 </div>
 
 <script>
@@ -107,7 +125,7 @@
     if('serviceWorker' in navigator){
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
-                .catch(err => console.warn('Erreur SW:', err));
+                .catch(err => console.warn('SW failed:', err));
         });
     }
 </script>
