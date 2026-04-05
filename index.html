@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/1055/1055666.png">
+    <meta name="theme-color" content="#22c55e">
     <title>Calculateur MRZ</title>
     <style>
         :root {
@@ -23,42 +27,48 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
 
         .container {
             background: var(--card);
             padding: 2rem;
-            border-radius: 8px;
+            border-radius: 12px;
             border: 1px solid #334155;
             width: 320px;
             text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
 
-        h2 { font-size: 1.1rem; color: var(--accent); margin-bottom: 1.5rem; text-transform: uppercase; }
+        h2 { font-size: 1.1rem; color: var(--accent); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
 
         input {
             width: 100%;
             background: #0f172a;
-            border: 1px solid #334155;
+            border: 2px solid #334155;
             padding: 12px;
-            color: var(--accent);
+            color: var(--text);
             font-size: 1.5rem;
             text-align: center;
-            border-radius: 4px;
+            border-radius: 8px;
             outline: none;
             box-sizing: border-box;
+            transition: border-color 0.3s;
         }
 
         input:focus { border-color: var(--accent); }
 
-        .result-label { font-size: 0.7rem; color: var(--dim); margin-top: 2rem; text-transform: uppercase; }
+        .result-label { font-size: 0.7rem; color: var(--dim); margin-top: 2rem; text-transform: uppercase; letter-spacing: 1px; }
 
         .digit {
             font-size: 5rem;
             font-weight: bold;
             color: var(--accent);
             margin: 0.5rem 0;
-            height: 80px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
@@ -67,7 +77,7 @@
 <div class="container">
     <h2>Format YYMMDD</h2>
     
-    <input type="text" id="dataInput" maxlength="6" placeholder="YYMMDD" oninput="run()">
+    <input type="text" id="dataInput" maxlength="6" inputmode="numeric" placeholder="6 chiffres" oninput="run()">
 
     <div class="result-label">Chiffre de contrôle</div>
     <div class="digit" id="res">-</div>
@@ -94,11 +104,12 @@
         }
     }
 
-    // Enregistrement du Service Worker pour le mode hors-ligne
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
+    if('serviceWorker' in navigator){
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .catch(err => console.warn('Erreur SW:', err));
+        });
     }
 </script>
-
 </body>
 </html>
